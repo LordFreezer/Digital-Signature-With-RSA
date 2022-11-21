@@ -1,0 +1,50 @@
+# Recursion Based
+def gcd(a, b):
+    global x, y
+    if (b == 0):
+        x=1
+        y=0
+        return a 
+    greatest_common_divisor = gcd(b, a % b)
+    x1 = x 
+    y1 = y 
+    
+    x = y1
+    y = x1 - (a // b) * y1 # // divides and returns floor
+    print("a="+str(a)+" b="+str(b)+" x="+str(x)+" y="+str(y))
+    return greatest_common_divisor
+
+def modInverse (a, m):
+    greatest_common_divisor = gcd(a, m)
+    if(greatest_common_divisor != 1):
+        print("Mod Inverse does not exist")
+        return -1
+    else: 
+        inv = (x % m + m) % m 
+        return inv
+
+def encrypt(message, n, private_key):
+    return message**private_key % n
+    
+def decrypt(message, public_key):
+    e, n = public_key
+    return message**e % n
+
+def euler_totient(p, q):
+    return (p-1)*(q-1)
+p=17
+q=31
+e=7
+H_M=9
+n = p * q
+public_key = e, n
+phi_n=euler_totient(p, q)
+private_key = modInverse(e, phi_n)
+C = encrypt(H_M, n,private_key)
+decryped_m = decrypt(C, public_key)
+
+print("Given p="+str(p)+" and q="+str(q)+" and e="+str(e)+" and M="+str(H_M))
+print("private key: "+str(private_key))
+print("public key: "+str(public_key))
+print("Digital Signature: "+str(C))
+print("Verified Signature: "+str(decryped_m))
